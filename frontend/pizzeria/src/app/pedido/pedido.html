@@ -1,0 +1,172 @@
+<div class="container-fluid mt-3">
+
+  <div class="card border-danger border-4">
+    <div class="card-body">
+
+      <h5 class="mb-3">Datos del cliente</h5>
+
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="form-label">Nombre:</label>
+          <input type="text" class="form-control" [(ngModel)]="nombre">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Dirección:</label>
+          <input type="text" class="form-control" [(ngModel)]="direccion">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Teléfono:</label>
+          <input type="text" class="form-control" [(ngModel)]="telefono">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Fecha de compra:</label>
+        <input type="date" class="form-control" [(ngModel)]="fecha">
+      </div>
+
+      <h5 class="mb-3">Información de la pizza</h5>
+
+      <div class="row">
+
+        <div class="col-md-4">
+          <fieldset class="border rounded p-3">
+            <legend class="float-none w-auto px-2 fs-6">
+              Tamaño Pizza
+            </legend>
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio"
+                name="tamano" value="Chica" [(ngModel)]="tamano">
+              <label class="form-check-label">Chica $40</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio"
+                name="tamano" value="Mediana" [(ngModel)]="tamano">
+              <label class="form-check-label">Mediana $80</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio"
+                name="tamano" value="Grande" [(ngModel)]="tamano">
+              <label class="form-check-label">Grande $120</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-md-4">
+          <fieldset class="border rounded p-3">
+            <legend class="float-none w-auto px-2 fs-6">
+              Ingredientes
+            </legend>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                [checked]="ingredientes.includes('Jamon')"
+                (change)="seleccionarIngrediente('Jamon', $event)">
+              <label class="form-check-label">Jamón $10</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                [checked]="ingredientes.includes('Piña')"
+                (change)="seleccionarIngrediente('Piña', $event)">
+              <label class="form-check-label">Piña $10</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                [checked]="ingredientes.includes('Champiñones')"
+                (change)="seleccionarIngrediente('Champiñones', $event)">
+              <label class="form-check-label">Champiñones $10</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Núm. de Pizzas:</label>
+          <input type="number" class="form-control"
+            min="1" [(ngModel)]="cantidad">
+
+          <button class="btn btn-primary mt-3" (click)="agregar()">
+            Agregar
+          </button>
+        </div>
+
+      </div>
+
+      <hr>
+
+      <h5 class="mb-3">Detalle del pedido</h5>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Tamaño</th>
+              <th>Ingredientes</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (pizza of pizzas; track $index) {
+              <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ pizza.tamano }}</td>
+                <td>
+                  {{ pizza.ingredientes.length > 0
+                    ? pizza.ingredientes.join(', ')
+                    : 'Ninguno' }}
+                </td>
+                <td>{{ pizza.cantidad }}</td>
+                <td class="fw-bold text-success">
+                  {{ pizza.subtotal | currency:'MXN':'symbol':'1.2-2' }}
+                </td>
+                <td>
+                  <button class="btn btn-danger btn-sm"
+                    (click)="quitar($index)">
+                    Quitar
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="text-center text-muted py-3">
+                  No hay pizzas agregadas
+                </td>
+              </tr>
+            }
+          </tbody>
+
+        </table>
+      </div>
+
+      <div class="text-end mb-3">
+        <h5>
+          Total del pedido:
+          <span class="text-success">
+            {{ totalPedido | currency:'MXN':'symbol':'1.2-2' }}
+          </span>
+        </h5>
+      </div>
+
+      <div class="text-end">
+        <button class="btn btn-success btn-lg"
+          [disabled]="pizzas.length === 0"
+          (click)="terminar()">
+          Terminar pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,222 @@
+<div class="container-fluid mt-3">
+
+  <div class="row g-3">
+
+    <!-- Registro de ventas -->
+    <div class="col-md-7">
+
+      <div class="card border-primary border-2 h-100">
+
+        <div class="card-body">
+
+          <h5 class="mb-3">Registro de ventas</h5>
+
+          <h6>Pedidos registrados</h6>
+
+          <div class="table-responsive">
+
+            <table class="table table-bordered table-striped table-hover align-middle">
+
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Dirección</th>
+                  <th>Teléfono</th>
+                  <th>Fecha</th>
+                  <th>Total</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                @for (pedido of pedidos; track pedido.id_pedido) {
+                  <tr>
+                    <td>{{ pedido.id_pedido }}</td>
+                    <td>{{ pedido.nombre_cliente }}</td>
+                    <td>{{ pedido.direccion }}</td>
+                    <td>{{ pedido.telefono }}</td>
+                    <td>{{ pedido.fecha_pedido }}</td>
+                    <td class="fw-bold text-success">
+                      {{ pedido.total | currency:'MXN':'symbol':'1.2-2' }}
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-primary btn-sm"
+                        (click)="verDetalle(pedido)">
+                        Ver detalle
+                      </button>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="7" class="text-center">
+                      No hay pedidos registrados
+                    </td>
+                  </tr>
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+          <div class="text-end">
+            <span class="badge bg-danger fs-6">
+              Total de pedidos: {{ pedidos.length }}
+            </span>
+          </div>
+
+          @if (pedidoSeleccionado) {
+
+            <hr>
+
+            <h6>Detalle del pedido #{{ pedidoSeleccionado.id_pedido }}</h6>
+
+            <p>
+              <strong>Cliente:</strong>
+              {{ pedidoSeleccionado.nombre_cliente }}
+            </p>
+
+            <p>
+              <strong>Teléfono:</strong>
+              {{ pedidoSeleccionado.telefono }}
+            </p>
+
+            <div class="table-responsive">
+
+              <table class="table table-bordered table-striped">
+
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Tamaño</th>
+                    <th>Ingredientes</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  @for (detalle of detalles; track detalle.id_detalle) {
+                    <tr>
+                      <td>{{ detalle.id_detalle }}</td>
+                      <td>{{ detalle.tamano }}</td>
+                      <td>{{ detalle.ingredientes }}</td>
+                      <td>{{ detalle.cantidad }}</td>
+                      <td>
+                        {{ detalle.subtotal | currency:'MXN':'symbol':'1.2-2' }}
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="5" class="text-center">
+                        No hay detalles registrados
+                      </td>
+                    </tr>
+                  }
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+            <div class="text-end">
+              <strong>
+                Total del pedido:
+                {{ pedidoSeleccionado.total | currency:'MXN':'symbol':'1.2-2' }}
+              </strong>
+            </div>
+
+            <div class="text-end mt-2">
+              <button class="btn btn-secondary btn-sm" (click)="cerrarDetalle()">
+                Cerrar detalle
+              </button>
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Ventas del día -->
+    <div class="col-md-5">
+
+      <div class="card border-success border-2 h-100">
+
+        <div class="card-body">
+
+          <h5 class="mb-3">Ventas del día</h5>
+
+          <table class="table table-bordered table-sm">
+
+            <tbody>
+              <tr>
+                <th>Ventas totales del día:</th>
+                <td class="text-end fw-bold">
+                  {{ totalVentasDia | currency:'MXN':'symbol':'1.2-2' }}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Cantidad de ventas:</th>
+                <td class="text-end fw-bold">
+                  {{ cantidadVentasDia }}
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+          <div class="table-responsive">
+
+            <table class="table table-bordered table-striped">
+
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                @for (pedido of ventasDelDia; track pedido.id_pedido) {
+                  <tr>
+                    <td>{{ pedido.id_pedido }}</td>
+                    <td>{{ pedido.nombre_cliente }}</td>
+                    <td>
+                      {{ pedido.total | currency:'MXN':'symbol':'1.2-2' }}
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="3" class="text-center">
+                      No hay ventas registradas hoy
+                    </td>
+                  </tr>
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

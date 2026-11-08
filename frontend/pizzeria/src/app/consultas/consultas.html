@@ -1,0 +1,152 @@
+
+<div class="container-fluid mt-4">
+
+  <h2 class="text-center mb-4">Consulta de ventas</h2>
+
+  <div class="row g-3">
+
+    <div class="col-md-6">
+
+      <div class="card border-primary border-3 h-100">
+
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Consulta por día</h5>
+        </div>
+
+        <div class="card-body">
+
+          <label class="form-label">Seleccionar día:</label>
+
+          <select class="form-select mb-3" [(ngModel)]="dia">
+            <option value="lunes">Lunes</option>
+            <option value="martes">Martes</option>
+            <option value="miercoles">Miércoles</option>
+            <option value="jueves">Jueves</option>
+            <option value="viernes">Viernes</option>
+            <option value="sabado">Sábado</option>
+            <option value="domingo">Domingo</option>
+          </select>
+
+          <button class="btn btn-primary" (click)="consultarDia()">
+            Consultar ventas
+          </button>
+
+          <div class="table-responsive mt-3">
+            <table class="table table-bordered table-striped">
+
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Dirección</th>
+                  <th>Fecha</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                @for (venta of ventasDia; track venta.id_pedido) {
+                  <tr>
+                    <td>{{ venta.id_pedido }}</td>
+                    <td>{{ venta.nombre_cliente }}</td>
+                    <td>{{ venta.direccion }}</td>
+                    <td>{{ venta.fecha_pedido }}</td>
+                    <td>{{ venta.total | currency:'MXN' }}</td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="5" class="text-center">
+                      No hay ventas consultadas
+                    </td>
+                  </tr>
+                }
+              </tbody>
+
+            </table>
+          </div>
+
+          <h5>Total de ventas: {{ cantidadDia }}</h5>
+          <h5>Total acumulado: {{ totalDia | currency:'MXN' }}</h5>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+      <div class="card border-danger border-3 h-100">
+
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">Consulta por mes</h5>
+        </div>
+
+        <div class="card-body">
+
+          <label class="form-label">Seleccionar mes:</label>
+
+          <select class="form-select mb-3" [(ngModel)]="mes">
+            <option value="enero">Enero</option>
+            <option value="febrero">Febrero</option>
+            <option value="marzo">Marzo</option>
+            <option value="abril">Abril</option>
+            <option value="mayo">Mayo</option>
+            <option value="junio">Junio</option>
+            <option value="julio">Julio</option>
+            <option value="agosto">Agosto</option>
+            <option value="septiembre">Septiembre</option>
+            <option value="octubre">Octubre</option>
+            <option value="noviembre">Noviembre</option>
+            <option value="diciembre">Diciembre</option>
+          </select>
+
+          <button class="btn btn-danger" (click)="consultarMes()">
+            Consultar ventas
+          </button>
+
+          <div class="table-responsive mt-3">
+            <table class="table table-bordered table-striped">
+
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Dirección</th>
+                  <th>Fecha</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                @for (venta of ventasMes; track venta.id_pedido) {
+                  <tr>
+                    <td>{{ venta.id_pedido }}</td>
+                    <td>{{ venta.nombre_cliente }}</td>
+                    <td>{{ venta.direccion }}</td>
+                    <td>{{ venta.fecha_pedido }}</td>
+                    <td>{{ venta.total | currency:'MXN' }}</td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="5" class="text-center">
+                      No hay ventas consultadas
+                    </td>
+                  </tr>
+                }
+              </tbody>
+
+            </table>
+          </div>
+
+          <h5>Total de ventas: {{ cantidadMes }}</h5>
+          <h5>Total acumulado: {{ totalMes | currency:'MXN' }}</h5>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
